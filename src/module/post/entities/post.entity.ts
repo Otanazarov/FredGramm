@@ -13,8 +13,8 @@ export class Post  extends RootEntity{
 
     @Column()
     desc:string
-
-    @Column()
+    
+    @Column({default:0})
     view_count:number
 
    @ManyToMany(()=>User,(user)=> user.posts)
@@ -22,5 +22,4 @@ export class Post  extends RootEntity{
 
    @ManyToMany(()=>Hashtag,(hashtag)=> hashtag.posts)
    hashtags:Hashtag[]
-   
 }

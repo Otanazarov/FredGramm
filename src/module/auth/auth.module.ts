@@ -9,8 +9,8 @@ import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]),JwtModule.register({
-    secret: 'REFRESH_TOKEN',
-    signOptions: { expiresIn: '1d' },
+    secret: 'TOKEN',
+    signOptions: { expiresIn: '1d' },global:true
   }),],
   controllers: [AuthController],
   providers: [AuthService],

@@ -5,6 +5,7 @@ import { User } from 'src/module/user/entities/user.entity';
 import { Post } from 'src/module/post/entities/post.entity';
 import { Comment } from 'src/module/comment/entities/comment.entity';
 import { Hashtag } from 'src/module/hashtag/entities/hashtag.entity';
+import { UserFollow } from 'src/module/user.follow/entities/user.follow.entity';
 
 export const typeoremConfig: MysqlConnectionOptions = {
   type: 'mysql',
@@ -13,6 +14,6 @@ export const typeoremConfig: MysqlConnectionOptions = {
   username: env.DB_USER,
   password: env.DB_PASS,
   database: env.DB_NAME,
-  entities: [User, Post, Comment, Hashtag],
+  entities: [User, Post, Comment, Hashtag, UserFollow],
   synchronize: true,
 };

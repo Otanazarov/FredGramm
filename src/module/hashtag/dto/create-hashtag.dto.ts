@@ -5,5 +5,4 @@ export class CreateHashtagDto {
     @ApiProperty()
     @IsString()
     name:string
-
 }

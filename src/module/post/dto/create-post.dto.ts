@@ -18,9 +18,10 @@ export class CreatePostDto {
   @ApiProperty({default:[7,8,9,]})
   @IsNumber({maxDecimalPlaces:0},{each:true})
   users: number[];
-
+  
+  @IsOptional()
   @ApiProperty({default:['']})
-  @IsNumber({maxDecimalPlaces:0},{each:true})
+  @IsString({each:true})
   hashtag: string[];
 
   

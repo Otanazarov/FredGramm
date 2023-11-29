@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UseGuards } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +7,9 @@ import { Repository } from 'typeorm';
 import { hash } from 'bcrypt';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { CreateAuthLoginDto } from './dto/create_login.dto';
+import { RolesGuard } from 'src/common/guards/role.guard';
+import { decryptWithAES, encrypWithAES } from 'src/common/util/hashing.util';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +19,8 @@ export class AuthService {
   ) {}
   async register(createAuthDto: CreateAuthDto) {
     const { email, password, firstname, lastname } = createAuthDto;
-    const hashed_password_hash = await bcrypt.hash(password, 9);
+    const hashed_password_hash = await encrypWithAES(password)
+    
     const user = this.UserRepo.create({
       firstname,
       email,
@@ -34,19 +38,17 @@ export class AuthService {
     this.UserRepo.save(user);
     return user;
   }
-
-  async login(createAuthDto: CreateAuthDto) {
-    const { email, password } = createAuthDto;
+  async login(createAuthLoginDto: CreateAuthLoginDto) {
+    const { email, password } = createAuthLoginDto;
     const user = await this.UserRepo.findOneBy({ email });
-    console.log(user);
     if (!user) {
       throw new BadRequestException(`Email not found`);
     }
-
+ 
     if (!(await bcrypt.compare(password, user.password))) {
       throw new BadRequestException(`Wrong password`);
     }
-    const jwt = await this.jwtService.signAsync({ id: user.id });
+    const jwt = await this.jwtService.signAsync({ id: user.id,role:user.role });
     return jwt;
   }
 

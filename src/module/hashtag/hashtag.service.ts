@@ -17,7 +17,7 @@ export class HashtagService {
     const verifySign = await this.hashtagRepo.findOneBy({name})
     if(verifySign){
       throw new NotFoundException(`
-      name ${name} not found`)
+      name ${name} already`)
     }
     const result = await this.hashtagRepo.create(createHashtagDto)
     await this.hashtagRepo.save(result)

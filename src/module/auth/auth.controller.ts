@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateAuthLoginDto } from './dto/create_login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -21,8 +22,8 @@ export class AuthController {
     return this.authService.register(createAuthDto);
   }
   @Post('login')
-  login(@Body() createAuthDto:CreateAuthDto){
-    return this.authService.login(createAuthDto)
+  login(@Body() createAuthLoginDto:CreateAuthLoginDto){
+    return this.authService.login(createAuthLoginDto)
   }
 
   @Get()

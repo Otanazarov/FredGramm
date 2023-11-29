@@ -8,9 +8,20 @@ import { UserModule } from './module/user/user.module';
 import { PostModule } from './module/post/post.module';
 import { CommentModule } from './module/comment/comment.module';
 import { HashtagModule } from './module/hashtag/hashtag.module';
+import { UserFollowModule } from './module/user.follow/user.follow.module';
+import { JwtService } from '@nestjs/jwt';
+import { AuthGuard } from './common/guards/auth.guard';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeoremConfig), AuthModule, UserModule, PostModule, CommentModule, HashtagModule],
+  imports: [
+    TypeOrmModule.forRoot(typeoremConfig),
+    AuthModule,
+    UserModule,
+    PostModule,
+    CommentModule,
+    HashtagModule,
+    UserFollowModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

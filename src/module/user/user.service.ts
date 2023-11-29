@@ -18,14 +18,16 @@ export class UserService {
     @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) {}
 
-  async search(query){
-    return new ApiResponse(await this.userRepo.find({
-      where:{
-        firstname:Like(`%${query}%`)
-      }
-    }))
+  async search(query) {
+    return new ApiResponse(
+      await this.userRepo.find({
+        where: {
+          firstname: Like(`%${query}%`),
+        },
+      }),
+    );
   }
-  
+
   async create(createUserDto: CreateUserDto) {
     createUserDto.password = encrypWithAES(createUserDto.password);
     const user = this.userRepo.create(createUserDto);
@@ -68,12 +70,15 @@ export class UserService {
   async remove(id: number) {
     try {
       const user = await this.userRepo.findOneBy({ id });
+      console.log(user);
+
       if (!user) {
         throw new NotFoundException(`User with id :${id} not found`);
       }
-      await this.userRepo.delete(user);
+      await this.userRepo.remove(user);
+      return 'Ochrildi';
     } catch (error) {
-      throw error;
+      throw new BadRequestException(error);
     }
   }
 }
